@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:strech_timer/views/color_view.dart';
+import 'package:strech_timer/views/timer_creation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,9 +11,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Flutter Demo',
-      home: ColorView(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Strech Timer',
+      home: TimerCreation(),
+      theme: ThemeData(
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.system,
     );
   }
 }
