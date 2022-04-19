@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:strech_timer/views/timer_creation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Strech Timer',
-      home: TimerCreation(),
+      home: Scaffold(),
       theme: ThemeData(
         brightness: Brightness.light,
       ),

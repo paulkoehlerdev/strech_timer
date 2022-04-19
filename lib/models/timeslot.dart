@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Timeslot {
-  Color color;
   Duration time;
+  Color color;
   String text;
 
-  Timeslot(this.color, this.time, [this.text = ""]);
+  Timeslot({
+    required this.time,
+    required this.color,
+    required this.text,
+  });
 }
