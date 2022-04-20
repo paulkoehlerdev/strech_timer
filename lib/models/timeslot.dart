@@ -6,8 +6,8 @@ class Timeslot {
   String text;
 
   Timeslot({
-    required this.time,
+    this.time = const Duration(seconds: 0),
     required this.color,
-    required this.text,
+    this.text = "",
   });
 }
