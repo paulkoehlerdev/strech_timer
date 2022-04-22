@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:strech_timer/util/queue/queue_element.dart';
 import 'package:strech_timer/util/queue/queue.dart';
+import 'package:strech_timer/util/queue/queue_element.dart';
 import 'package:strech_timer/models/timeslot.dart';
 
-class EndElement implements QueueElement{
-  @override
-  Queue? parent;
-
+class EndElement extends QueueElement{
   @override
   QueueElement get next => this;
+
+  @override
+  set parent(Queue parent) => throw Exception("Bad argument: EndElement has no Parent");
 
   @override
   Widget get widget => throw Exception("Bad argument: EndElement has no Widget");

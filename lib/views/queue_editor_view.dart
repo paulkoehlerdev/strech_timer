@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:strech_timer/util/queue/queue.dart';
-import 'package:strech_timer/util/queue/queue_elements/repeat_element.dart';
 import 'package:strech_timer/util/state_manager/state_manager.dart';
 
 class QueueEditorView extends StatefulWidget {
@@ -34,9 +33,7 @@ class _QueueEditorViewState extends State<QueueEditorView> {
         title: Text("Edit Workout"),
         actions: [
           IconButton(
-            onPressed: () {
-              _queue.add(RepeatElement());
-            },
+            onPressed: null,
             icon: const Icon(Icons.play_arrow),
           ),
         ],

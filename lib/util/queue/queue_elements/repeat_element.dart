@@ -5,20 +5,26 @@ import 'package:strech_timer/util/queue/queue_element.dart';
 import 'package:strech_timer/util/queue/queue_elements/end_element.dart';
 import 'package:strech_timer/widgets/queue_elements/dismissible_queue_element_widget.dart';
 class RepeatElement implements QueueElement {
-  int _repetitions = 0;
+  int repetitions = 0;
   final Queue _queue = Queue();
   QueueElement _next = EndElement();
 
+  RepeatElement(this.repetitions);
+
   Queue get queue => _queue;
 
+  Queue? _parent;
+
   @override
-  Queue? parent;
+  set parent(Queue parent){
+    _parent ??= parent;
+  }
 
   @override
   QueueElement get next => _next;
 
   @override
-  Widget get widget => DismissibleQueueElementWidget.repeat(parent: parent!, childQueue: _queue, repetitions: _repetitions);
+  Widget get widget => DismissibleQueueElementWidget.repeat(parent: _parent!, childQueue: _queue, repetitions: repetitions);
 
   @override
   Timeslot get timeslot => Timeslot(color: Colors.grey, time: _queue.getTotalTime());

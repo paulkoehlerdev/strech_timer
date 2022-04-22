@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:strech_timer/util/queue/queue_element.dart';
 import 'package:strech_timer/util/queue/queue.dart';
 import 'package:strech_timer/util/queue/queue_elements/end_element.dart';
-import 'package:strech_timer/util/queue/queue_elements/return_element.dart';
 import 'package:strech_timer/models/timeslot.dart';
 import 'package:strech_timer/widgets/queue_elements/dismissible_queue_element_widget.dart';
 
@@ -10,23 +9,23 @@ class TimeslotElement implements QueueElement{
   QueueElement _next = EndElement();
   final Timeslot _timeslot;
 
+  Queue? _parent;
+
   @override
-  Queue? parent;
+  set parent(Queue parent){
+    _parent ??= parent;
+  }
 
   @override
   QueueElement get next => _next;
 
   @override
-  Widget get widget => DismissibleQueueElementWidget.timeslot(parent: parent!, slot: _timeslot);
+  Widget get widget => DismissibleQueueElementWidget.timeslot(parent: _parent!, slot: _timeslot);
 
   @override
   Timeslot get timeslot => _timeslot;
 
-  TimeslotElement(this._timeslot, {QueueElement? returnElement}){
-    if(returnElement != null){
-      _next = ReturnElement(returnElement);
-    }
-  }
+  TimeslotElement(this._timeslot);
 
   @override
   bool add(QueueElement item) {

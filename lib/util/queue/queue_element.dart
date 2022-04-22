@@ -3,7 +3,8 @@ import 'package:strech_timer/models/timeslot.dart';
 import 'package:strech_timer/util/queue/queue.dart';
 
 abstract class QueueElement{
-  Queue? parent;
+
+  set parent(Queue parent);
 
   bool add(QueueElement item);
   bool removeAt(int i);
