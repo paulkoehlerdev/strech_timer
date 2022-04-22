@@ -4,7 +4,7 @@ import 'package:strech_timer/util/queue/queue.dart';
 import 'package:strech_timer/util/queue/queue_elements/end_element.dart';
 import 'package:strech_timer/util/queue/queue_elements/return_element.dart';
 import 'package:strech_timer/models/timeslot.dart';
-import 'package:strech_timer/widgets/queue_elements/timeslot_element_widget.dart';
+import 'package:strech_timer/widgets/queue_elements/dismissible_queue_element_widget.dart';
 
 class TimeslotElement implements QueueElement{
   QueueElement _next = EndElement();
@@ -17,7 +17,7 @@ class TimeslotElement implements QueueElement{
   QueueElement get next => _next;
 
   @override
-  Widget get widget => TimeslotElementWidget(_timeslot, parent: parent,);
+  Widget get widget => DismissibleQueueElementWidget.timeslot(parent: parent!, slot: _timeslot);
 
   @override
   Timeslot get timeslot => _timeslot;

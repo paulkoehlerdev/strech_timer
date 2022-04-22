@@ -4,10 +4,10 @@ import 'package:strech_timer/util/queue/queue.dart';
 import 'package:strech_timer/util/queue/queue_elements/timeslot_element.dart';
 import 'package:strech_timer/widgets/card_tile.dart';
 
-class EndElementWidget extends StatelessWidget {
+class AddElementWidget extends StatelessWidget {
   final Queue _queue;
 
-  const EndElementWidget(this._queue, {Key? key}) : super(key: key);
+  const AddElementWidget(this._queue, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

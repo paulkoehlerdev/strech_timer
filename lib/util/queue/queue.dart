@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:strech_timer/models/timeslot.dart';
 import 'package:strech_timer/util/queue/queue_elements/end_element.dart';
 import 'package:strech_timer/util/queue/queue_element.dart';
-import 'package:strech_timer/widgets/queue_elements/end_element_widget.dart';
+import 'package:strech_timer/widgets/queue_elements/add_element_widget.dart';
 
 class Queue {
   QueueElement _root = EndElement();
@@ -28,7 +27,7 @@ class Queue {
       QueueElement el = it.current;
       out.add(el.widget);
     }
-    out.add(EndElementWidget(this));
+    out.add(AddElementWidget(this));
     return out;
   }
 
@@ -59,11 +58,11 @@ class Queue {
     return _root.removeAt(i - 1);
   }
 
-  bool removeTimeslot(Timeslot slot) {
+  bool comparativeRemove(bool Function(QueueElement a) comp) {
     QueueIterator it = iterator;
     while (it.moveNext()) {
-      if (it._current.timeslot == slot) {
-        removeAt(it._index);
+      if (comp(it.current)) {
+        removeAt(it.index);
         return true;
       }
     }
