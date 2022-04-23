@@ -18,28 +18,24 @@ void showTimeslotElementModal(BuildContext context, Queue parent, {TimeslotEleme
 
 class _TimeslotElementModal extends StatefulWidget {
   final Queue _queue;
-  TimeslotElement? element;
+  late TimeslotElement element;
+  late bool isNew;
+
 
   _TimeslotElementModal(
     this._queue, {
-      this.element,
+      TimeslotElement? element,
     Key? key,
-  }) : super(key: key);
+  }) : super(key: key) {
+    isNew = element == null;
+    this.element = element ?? TimeslotElement(Timeslot(color: Colors.red, text: ""));
+  }
 
   @override
   State<_TimeslotElementModal> createState() => _TimeslotElementModalState();
 }
 
 class _TimeslotElementModalState extends State<_TimeslotElementModal> {
-  TextEditingController controller = TextEditingController();
-  bool isNew = false;
-
-  @override
-  void initState() {
-    super.initState();
-    isNew = widget.element == null;
-    widget.element ??= TimeslotElement(Timeslot(color: Colors.red));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,25 +43,10 @@ class _TimeslotElementModalState extends State<_TimeslotElementModal> {
       children: [
         Padding(
           padding: const EdgeInsets.all(12.0),
-          child: TimeslotElementWidget(widget.element!.timeslot),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            controller: controller,
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              hintText: "Text",
-            ),
-            onChanged: (value)  {
-              setState(() {
-                widget.element!.timeslot.text = value;
-              });
-            },
-          ),
+          child: TimeslotElementWidget(widget.element.timeslot),
         ),
         ColorSelector(
-          widget.element!.timeslot,
+          widget.element.timeslot,
           callback: () {
             setState(() {});
           },
@@ -79,12 +60,12 @@ class _TimeslotElementModalState extends State<_TimeslotElementModal> {
                 axis: Axis.horizontal,
                 minValue: 0,
                 maxValue: 60,
-                value: widget.element!.timeslot.time.inMinutes,
+                value: widget.element.timeslot.time.inMinutes,
                 onChanged: (n) {
                   setState(() {
-                    widget.element!.timeslot.time = Duration(
+                    widget.element.timeslot.time = Duration(
                       minutes: n,
-                      seconds: widget.element!.timeslot.time.inSeconds % 60,
+                      seconds: widget.element.timeslot.time.inSeconds % 60,
                     );
                   });
                 },
@@ -109,11 +90,11 @@ class _TimeslotElementModalState extends State<_TimeslotElementModal> {
                   axis: Axis.horizontal,
                   minValue: 0,
                   maxValue: 60,
-                  value: widget.element!.timeslot.time.inSeconds % 60,
+                  value: widget.element.timeslot.time.inSeconds % 60,
                   onChanged: (n) {
                     setState(() {
-                      widget.element!.timeslot.time = Duration(
-                          minutes: widget.element!.timeslot.time.inMinutes, seconds: n);
+                      widget.element.timeslot.time = Duration(
+                          minutes: widget.element.timeslot.time.inMinutes, seconds: n);
                     });
                   },
                 decoration: BoxDecoration(
@@ -136,8 +117,8 @@ class _TimeslotElementModalState extends State<_TimeslotElementModal> {
           },
           onDone: () {
             Navigator.of(context).pop();
-            if(isNew) {
-              widget._queue.add(widget.element!);
+            if(widget.isNew) {
+              widget._queue.add(widget.element);
             }
             else{
               widget._queue.executeListener();
