@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:strech_timer/util/queue/queue.dart';
-import 'package:strech_timer/widgets/modals/repeat_creation_modal.dart';
-import 'package:strech_timer/widgets/modals/timeslot_creation_modal.dart';
+import 'package:strech_timer/widgets/modals/repeat_element_modal.dart';
+import 'package:strech_timer/widgets/modals/timeslot_element_modal.dart';
 
 void createSelectionModal(BuildContext context, Queue queue) {
   showModalBottomSheet(
@@ -26,7 +26,7 @@ class _SelectionModal extends StatelessWidget {
           title: const Text("Timeslot"),
           onTap: () {
             Navigator.of(context).pop();
-            createTimeslotCreationModal(context, _queue);
+            showTimeslotElementModal(context, _queue);
           },
         ),
         ListTile(
@@ -34,7 +34,7 @@ class _SelectionModal extends StatelessWidget {
           title: const Text("Repetition"),
           onTap: () {
             Navigator.of(context).pop();
-            createRepeatCreationModal(context, _queue);
+            showRepeatElementModal(context, _queue);
           },
         ),
         ListTile(

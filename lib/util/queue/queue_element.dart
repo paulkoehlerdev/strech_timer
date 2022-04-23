@@ -5,6 +5,10 @@ import 'package:strech_timer/util/queue/queue.dart';
 abstract class QueueElement{
 
   set parent(Queue parent);
+  Queue get parent;
+  Key get key;
+
+  bool comp(QueueElement other);
 
   bool add(QueueElement item);
   bool removeAt(int i);

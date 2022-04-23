@@ -8,40 +8,64 @@ import 'package:strech_timer/widgets/items/close_buttons.dart';
 import 'package:strech_timer/widgets/items/color_selector.dart';
 import 'package:strech_timer/widgets/queue_elements/timeslot_element_widget.dart';
 
-void createTimeslotCreationModal(BuildContext context, Queue queue) {
+void showTimeslotElementModal(BuildContext context, Queue parent, {TimeslotElement? element}) {
   showModalBottomSheet(
     context: context,
-    builder: (context) => _TimeslotCreationModal(queue),
+    builder: (context) => _TimeslotElementModal(parent, element: element),
+    isDismissible: false,
   );
 }
 
-class _TimeslotCreationModal extends StatefulWidget {
+class _TimeslotElementModal extends StatefulWidget {
   final Queue _queue;
-  Timeslot _timeslot = Timeslot(color: Colors.red);
+  TimeslotElement? element;
 
-  _TimeslotCreationModal(
+  _TimeslotElementModal(
     this._queue, {
-    Timeslot? timeslot,
+      this.element,
     Key? key,
-  }) : super(key: key) {
-    _timeslot = timeslot ?? _timeslot;
-  }
+  }) : super(key: key);
 
   @override
-  State<_TimeslotCreationModal> createState() => _TimeslotCreationModalState();
+  State<_TimeslotElementModal> createState() => _TimeslotElementModalState();
 }
 
-class _TimeslotCreationModalState extends State<_TimeslotCreationModal> {
+class _TimeslotElementModalState extends State<_TimeslotElementModal> {
+  TextEditingController controller = TextEditingController();
+  bool isNew = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isNew = widget.element == null;
+    widget.element ??= TimeslotElement(Timeslot(color: Colors.red));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(12.0),
-          child: TimeslotElementWidget(widget._timeslot),
+          child: TimeslotElementWidget(widget.element!.timeslot),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            controller: controller,
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              hintText: "Text",
+            ),
+            onChanged: (value)  {
+              setState(() {
+                widget.element!.timeslot.text = value;
+              });
+            },
+          ),
         ),
         ColorSelector(
-          widget._timeslot,
+          widget.element!.timeslot,
           callback: () {
             setState(() {});
           },
@@ -55,12 +79,12 @@ class _TimeslotCreationModalState extends State<_TimeslotCreationModal> {
                 axis: Axis.horizontal,
                 minValue: 0,
                 maxValue: 60,
-                value: widget._timeslot.time.inMinutes,
+                value: widget.element!.timeslot.time.inMinutes,
                 onChanged: (n) {
                   setState(() {
-                    widget._timeslot.time = Duration(
+                    widget.element!.timeslot.time = Duration(
                       minutes: n,
-                      seconds: widget._timeslot.time.inSeconds % 60,
+                      seconds: widget.element!.timeslot.time.inSeconds % 60,
                     );
                   });
                 },
@@ -69,8 +93,8 @@ class _TimeslotCreationModalState extends State<_TimeslotCreationModal> {
                   border: Border.all(color: Colors.grey),
                 ),
                 itemCount: 5,
-                itemHeight: 60,
-                itemWidth: 60,
+                itemHeight: 50,
+                itemWidth: 50,
               ),
               const Text("min"),
             ],
@@ -85,11 +109,11 @@ class _TimeslotCreationModalState extends State<_TimeslotCreationModal> {
                   axis: Axis.horizontal,
                   minValue: 0,
                   maxValue: 60,
-                  value: widget._timeslot.time.inSeconds % 60,
+                  value: widget.element!.timeslot.time.inSeconds % 60,
                   onChanged: (n) {
                     setState(() {
-                      widget._timeslot.time = Duration(
-                          minutes: widget._timeslot.time.inMinutes, seconds: n);
+                      widget.element!.timeslot.time = Duration(
+                          minutes: widget.element!.timeslot.time.inMinutes, seconds: n);
                     });
                   },
                 decoration: BoxDecoration(
@@ -97,8 +121,8 @@ class _TimeslotCreationModalState extends State<_TimeslotCreationModal> {
                   border: Border.all(color: Colors.grey),
                 ),
                 itemCount: 5,
-                itemHeight: 60,
-                itemWidth: 60,
+                itemHeight: 50,
+                itemWidth: 50,
               ),
               const Text("sec"),
             ],
@@ -108,10 +132,16 @@ class _TimeslotCreationModalState extends State<_TimeslotCreationModal> {
         CloseButtons(
           onCancel: () {
             Navigator.of(context).pop();
+            widget._queue.executeListener();
           },
           onDone: () {
             Navigator.of(context).pop();
-            widget._queue.add(TimeslotElement(widget._timeslot));
+            if(isNew) {
+              widget._queue.add(widget.element!);
+            }
+            else{
+              widget._queue.executeListener();
+            }
           },
         ),
       ],

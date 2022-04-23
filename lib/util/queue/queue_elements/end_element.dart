@@ -11,10 +11,19 @@ class EndElement extends QueueElement{
   set parent(Queue parent) => throw Exception("Bad argument: EndElement has no Parent");
 
   @override
+  Queue get parent => throw Exception("Bad argument: EndElement has no Parent");
+
+  @override
   Widget get widget => throw Exception("Bad argument: EndElement has no Widget");
 
   @override
   Timeslot get timeslot => throw Exception("Bad argument: EndElement has no timeslot");
+
+  @override
+  Key get key => throw Exception("Bad argument: EndElement has no key");
+
+  @override
+  bool comp(QueueElement other) => other is EndElement;
 
   @override
   bool add(QueueElement item) => false;

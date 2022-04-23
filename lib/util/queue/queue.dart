@@ -14,7 +14,7 @@ class Queue {
     _onChange.add(listener);
   }
 
-  Future<void> _executeListener() async {
+  Future<void> executeListener() async {
     _onChange.forEach((element) {
       element();
     });
@@ -46,7 +46,7 @@ class Queue {
     if (!_root.add(item)) {
       _root = item;
     }
-    _executeListener();
+    executeListener();
   }
 
   bool removeAt(int i) {
@@ -54,8 +54,9 @@ class Queue {
       _root = _root.next;
       return true;
     }
-    _executeListener();
-    return _root.removeAt(i - 1);
+    bool out = _root.removeAt(i - 1);
+    executeListener();
+    return out;
   }
 
   bool comparativeRemove(bool Function(QueueElement a) comp) {
@@ -63,9 +64,11 @@ class Queue {
     while (it.moveNext()) {
       if (comp(it.current)) {
         removeAt(it.index);
+        executeListener();
         return true;
       }
     }
+    executeListener();
     return false;
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:strech_timer/util/queue/queue.dart';
+import 'package:strech_timer/util/queue/queue_elements/repeat_element.dart';
 import 'package:strech_timer/widgets/card_tile.dart';
+import 'package:strech_timer/widgets/duration_text.dart';
 
 class RepeatElementWidget extends StatefulWidget {
   final Queue queue;
@@ -13,6 +15,10 @@ class RepeatElementWidget extends StatefulWidget {
     this.disableNew = false,
     Key? key,
   }) : super(key: key);
+
+  factory RepeatElementWidget.from(RepeatElement el){
+    return RepeatElementWidget(el.queue, el.repetitions);
+  }
 
   @override
   State<RepeatElementWidget> createState() => _RepeatElementWidgetState();
@@ -45,7 +51,7 @@ class _RepeatElementWidgetState extends State<RepeatElementWidget> {
           ListTile(
             leading: const Icon(Icons.repeat),
             title: Text("Repeating ${widget.repetitions}x"),
-            trailing: Text(widget.queue.getTotalTime().toString()),
+            trailing: DurationText(Duration(seconds: widget.queue.getTotalTime().inSeconds * widget.repetitions)),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 55),

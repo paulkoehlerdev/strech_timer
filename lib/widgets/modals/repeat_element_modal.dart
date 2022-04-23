@@ -6,25 +6,34 @@ import 'package:strech_timer/util/queue/queue_elements/repeat_element.dart';
 import 'package:strech_timer/widgets/items/close_buttons.dart';
 import 'package:strech_timer/widgets/queue_elements/repeat_element_widget.dart';
 
-void createRepeatCreationModal(BuildContext context, Queue queue) {
+void showRepeatElementModal(BuildContext context, Queue queue, {RepeatElement? element}) {
   showModalBottomSheet(
     context: context,
-    builder: (context) => _RepeatCreationModal(queue),
+    builder: (context) => _RepeatElementModal(queue, element: element),
+    isDismissible: false,
+    shape: const RoundedRectangleBorder(),
   );
 }
 
-class _RepeatCreationModal extends StatefulWidget {
+class _RepeatElementModal extends StatefulWidget {
   final Queue _queue;
+  RepeatElement? element;
 
-  const _RepeatCreationModal(this._queue, {Key? key}) : super(key: key);
+  _RepeatElementModal(this._queue, {this.element, Key? key}) : super(key: key);
 
   @override
-  State<_RepeatCreationModal> createState() => _RepeatCreationModalState();
+  State<_RepeatElementModal> createState() => _RepeatElementModalState();
 }
 
-class _RepeatCreationModalState extends State<_RepeatCreationModal> {
+class _RepeatElementModalState extends State<_RepeatElementModal> {
+  bool isNew = false;
 
-  int repetitions = 0;
+  @override
+  void initState() {
+    super.initState();
+    isNew = widget.element == null;
+    widget.element ??= RepeatElement(2);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +42,8 @@ class _RepeatCreationModalState extends State<_RepeatCreationModal> {
         Padding(
           padding: const EdgeInsets.all(12.0),
           child: RepeatElementWidget(
-            widget._queue,
-            repetitions,
+            Queue(),
+            widget.element!.repetitions,
             disableNew: true,
           ),
         ),
@@ -45,12 +54,12 @@ class _RepeatCreationModalState extends State<_RepeatCreationModal> {
             children: [
               NumberPicker(
                 axis: Axis.horizontal,
-                minValue: 0,
-                maxValue: 60,
-                value: repetitions,
+                minValue: 2,
+                maxValue: 10,
+                value: widget.element!.repetitions,
                 onChanged: (n) {
                   setState(() {
-                    repetitions = n;
+                    widget.element!.repetitions = n;
                   });
                 },
                 decoration: BoxDecoration(
@@ -70,10 +79,16 @@ class _RepeatCreationModalState extends State<_RepeatCreationModal> {
         CloseButtons(
           onCancel: () {
             Navigator.of(context).pop();
+            widget._queue.executeListener();
           },
           onDone: () {
             Navigator.of(context).pop();
-            widget._queue.add(RepeatElement(repetitions));
+            if(isNew){
+              widget._queue.add(widget.element!);
+            }
+            else{
+              widget._queue.executeListener();
+            }
           },
         ),
       ],

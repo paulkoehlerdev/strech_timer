@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:strech_timer/util/queue/queue.dart';
 import 'package:strech_timer/util/state_manager/state_manager.dart';
+import 'package:strech_timer/widgets/duration_text.dart';
 
 class QueueEditorView extends StatefulWidget {
   const QueueEditorView({Key? key}) : super(key: key);
@@ -30,11 +31,11 @@ class _QueueEditorViewState extends State<QueueEditorView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Workout"),
-        actions: [
+        title: const Text("Edit Workout"),
+        actions: const [
           IconButton(
             onPressed: null,
-            icon: const Icon(Icons.play_arrow),
+            icon: Icon(Icons.play_arrow),
           ),
         ],
       ),
@@ -43,7 +44,7 @@ class _QueueEditorViewState extends State<QueueEditorView> {
           children: [
             ListTile(
               title: const Text("Total Duration: "),
-              trailing: Text("${_queue.getTotalTime()}"),
+              trailing: DurationText(_queue.getTotalTime()),
             ),
             ...lw,
           ],
