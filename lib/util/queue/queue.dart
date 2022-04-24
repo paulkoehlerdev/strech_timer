@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:strech_timer/models/timeslot.dart';
 import 'package:strech_timer/util/queue/queue_elements/end_element.dart';
 import 'package:strech_timer/util/queue/queue_element.dart';
 import 'package:strech_timer/widgets/queue_elements/add_element_widget.dart';
@@ -39,6 +40,11 @@ class Queue {
       total = Duration(seconds: total.inSeconds + el.timeslot.time.inSeconds);
     }
     return total;
+  }
+
+  @override
+  List<Timeslot> getSlots(){
+    return _root.getSlots().reversed.toList();
   }
 
   void add(QueueElement item) {

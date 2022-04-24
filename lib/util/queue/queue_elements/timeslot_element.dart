@@ -35,6 +35,13 @@ class TimeslotElement implements QueueElement{
   TimeslotElement(this._timeslot);
 
   @override
+  List<Timeslot> getSlots(){
+    final out = _next.getSlots();
+    out.add(_timeslot);
+    return out;
+  }
+
+  @override
   bool comp(QueueElement other) => other is TimeslotElement && other.timeslot == _timeslot;
 
   @override

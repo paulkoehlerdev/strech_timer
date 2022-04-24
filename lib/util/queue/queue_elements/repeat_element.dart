@@ -47,6 +47,15 @@ class RepeatElement implements QueueElement {
       );
 
   @override
+  List<Timeslot> getSlots(){
+    final out = _next.getSlots();
+    for(int i = 0; i < repetitions; i++) {
+      out.addAll(_queue.getSlots().reversed);
+    }
+    return out;
+  }
+
+  @override
   bool comp(QueueElement other) => other is RepeatElement && other.queue == _queue;
 
   @override

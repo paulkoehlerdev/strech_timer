@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:strech_timer/util/queue/queue.dart';
 import 'package:strech_timer/util/state_manager/state_manager.dart';
+import 'package:strech_timer/views/queue_executor_view.dart';
 import 'package:strech_timer/widgets/duration_text.dart';
 
 class QueueEditorView extends StatefulWidget {
@@ -20,7 +21,7 @@ class _QueueEditorViewState extends State<QueueEditorView> {
 
     StateManager sm = StateManager();
     sm.addState("queue", _queue);
-    _queue.addListener (() {
+    _queue.addListener(() {
       setState(() {});
     });
   }
@@ -32,9 +33,16 @@ class _QueueEditorViewState extends State<QueueEditorView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Workout"),
-        actions: const [
+        actions: [
           IconButton(
-            onPressed: null,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QueueExecutorView.from(_queue),
+                ),
+              );
+            },
             icon: Icon(Icons.play_arrow),
           ),
         ],

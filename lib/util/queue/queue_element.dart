@@ -12,6 +12,7 @@ abstract class QueueElement{
 
   bool add(QueueElement item);
   bool removeAt(int i);
+  List<Timeslot> getSlots();
 
   QueueElement get next;
   Widget get widget;

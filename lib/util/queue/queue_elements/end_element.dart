@@ -23,6 +23,11 @@ class EndElement extends QueueElement{
   Key get key => throw Exception("Bad argument: EndElement has no key");
 
   @override
+  List<Timeslot> getSlots(){
+    return <Timeslot>[];
+  }
+
+  @override
   bool comp(QueueElement other) => other is EndElement;
 
   @override
