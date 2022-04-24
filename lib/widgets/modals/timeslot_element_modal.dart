@@ -8,7 +8,8 @@ import 'package:strech_timer/widgets/items/close_buttons.dart';
 import 'package:strech_timer/widgets/items/color_selector.dart';
 import 'package:strech_timer/widgets/queue_elements/timeslot_element_widget.dart';
 
-void showTimeslotElementModal(BuildContext context, Queue parent, {TimeslotElement? element}) {
+void showTimeslotElementModal(BuildContext context, Queue parent,
+    {TimeslotElement? element}) {
   showModalBottomSheet(
     context: context,
     builder: (context) => _TimeslotElementModal(parent, element: element),
@@ -21,14 +22,14 @@ class _TimeslotElementModal extends StatefulWidget {
   late TimeslotElement element;
   late bool isNew;
 
-
   _TimeslotElementModal(
     this._queue, {
-      TimeslotElement? element,
+    TimeslotElement? element,
     Key? key,
   }) : super(key: key) {
     isNew = element == null;
-    this.element = element ?? TimeslotElement(Timeslot(color: Colors.red, text: ""));
+    this.element =
+        element ?? TimeslotElement(Timeslot(color: Colors.red, text: ""));
   }
 
   @override
@@ -36,7 +37,6 @@ class _TimeslotElementModal extends StatefulWidget {
 }
 
 class _TimeslotElementModalState extends State<_TimeslotElementModal> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,6 +51,7 @@ class _TimeslotElementModalState extends State<_TimeslotElementModal> {
             setState(() {});
           },
         ),
+        const Spacer(),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -87,16 +88,17 @@ class _TimeslotElementModalState extends State<_TimeslotElementModal> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               NumberPicker(
-                  axis: Axis.horizontal,
-                  minValue: 0,
-                  maxValue: 60,
-                  value: widget.element.timeslot.time.inSeconds % 60,
-                  onChanged: (n) {
-                    setState(() {
-                      widget.element.timeslot.time = Duration(
-                          minutes: widget.element.timeslot.time.inMinutes, seconds: n);
-                    });
-                  },
+                axis: Axis.horizontal,
+                minValue: 0,
+                maxValue: 60,
+                value: widget.element.timeslot.time.inSeconds % 60,
+                onChanged: (n) {
+                  setState(() {
+                    widget.element.timeslot.time = Duration(
+                        minutes: widget.element.timeslot.time.inMinutes,
+                        seconds: n);
+                  });
+                },
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: Colors.grey),
@@ -117,10 +119,9 @@ class _TimeslotElementModalState extends State<_TimeslotElementModal> {
           },
           onDone: () {
             Navigator.of(context).pop();
-            if(widget.isNew) {
+            if (widget.isNew) {
               widget._queue.add(widget.element);
-            }
-            else{
+            } else {
               widget._queue.executeListener();
             }
           },

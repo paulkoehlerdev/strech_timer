@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class DurationText extends StatelessWidget {
   final Duration duration;
+  final TextStyle? style;
 
   const DurationText(
     this.duration, {
+    this.style,
     Key? key,
   }) : super(key: key);
 
@@ -15,12 +17,15 @@ class DurationText extends StatelessWidget {
     int minutes = duration.inMinutes;
     int seconds = duration.inSeconds % 60;
 
-    if(minutes > 0){
+    if (minutes > 0) {
       text += '$minutes min  ';
     }
 
     text += '$seconds s';
 
-    return Text(text);
+    return Text(
+      text,
+      style: style,
+    );
   }
 }

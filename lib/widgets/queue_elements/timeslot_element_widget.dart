@@ -12,16 +12,21 @@ class TimeslotElementWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  factory TimeslotElementWidget.from(TimeslotElement el){
+  factory TimeslotElementWidget.from(TimeslotElement el) {
     return TimeslotElementWidget(el.timeslot);
   }
+
+  final TextStyle _textStyle = const TextStyle(color: Colors.white);
 
   @override
   Widget build(BuildContext context) {
     return CardTile(
       color: _timeslot.color,
-      title: Text(_timeslot.text),
-      trailing: DurationText(_timeslot.time),
+      title: Text(
+        _timeslot.text,
+        style: _textStyle,
+      ),
+      trailing: DurationText(_timeslot.time, style: _textStyle),
     );
   }
 }

@@ -17,10 +17,13 @@ class ColorSelector extends StatefulWidget {
 
 class _ColorSelectorState extends State<ColorSelector> {
   final List<Color> _colors = <Color>[
+    Colors.lightGreen,
+    Colors.green,
+    Colors.blue[300]!,
+    Colors.blue[700]!,
     Colors.amber,
     Colors.red,
-    Colors.blue,
-    Colors.green,
+    Colors.pinkAccent,
     Colors.purple,
   ];
 
@@ -67,8 +70,8 @@ class _ColorSwatch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        height: 70,
-        padding: EdgeInsets.all(enabled ? 8 : 10),
+        height: 50,
+        padding: EdgeInsets.all(enabled ? 4 : 6),
         child: InkWell(
           onTap: onPressed,
           child: Container(
@@ -78,7 +81,7 @@ class _ColorSwatch extends StatelessWidget {
             ),
             child: enabled
                 ? const Center(
-                    child: Icon(Icons.done),
+                    child: Icon(Icons.done, color: Colors.white,),
                   )
                 : null,
           ),

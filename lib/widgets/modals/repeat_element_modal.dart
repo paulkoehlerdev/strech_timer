@@ -55,7 +55,7 @@ class _RepeatElementModalState extends State<_RepeatElementModal> {
               NumberPicker(
                 axis: Axis.horizontal,
                 minValue: 2,
-                maxValue: 10,
+                maxValue: 20,
                 value: widget.element!.repetitions,
                 onChanged: (n) {
                   setState(() {
