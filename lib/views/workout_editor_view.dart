@@ -2,29 +2,35 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:strech_timer/models/workout.dart';
-import 'package:strech_timer/views/workout_executor_view.dart';
-import 'package:strech_timer/widgets/card_tile.dart';
-import 'package:strech_timer/widgets/duration_text.dart';
+import 'package:strech_timer/util/storage_manager/storage_manager.dart';
+import 'package:strech_timer/widgets/items/duration_text.dart';
+import 'package:strech_timer/widgets/items/workout_card_tile.dart';
 import 'package:strech_timer/widgets/workout_editor_widget.dart';
 
 class WorkoutEditorView extends StatefulWidget {
   final Workout workout;
 
-  WorkoutEditorView(this.workout, {Key? key}) : super(key: key);
+  const WorkoutEditorView(this.workout, {Key? key}) : super(key: key);
 
   @override
   State<WorkoutEditorView> createState() => _WorkoutEditorViewState();
 }
 
 class _WorkoutEditorViewState extends State<WorkoutEditorView> {
+
   @override
   void initState() {
+    StorageManager();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
+  void dispose() {
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Workout"),
@@ -39,31 +45,7 @@ class _WorkoutEditorViewState extends State<WorkoutEditorView> {
       ),
       body: Column(
         children: [
-          CardTile(
-            title: Text(widget.workout.name),
-            leading: Icon(widget.workout.icon),
-            trailing: IconButton(
-              onPressed: () {
-                if (widget.workout.queue.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text("You can't start an empty workout"),
-                    ),
-                  );
-                  return;
-                }
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => WorkoutExecutorView.from(widget.workout.queue),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.play_arrow),
-            ),
-          ),
+          WorkoutCardTile(widget.workout),
           ListTile(
             title: const Text("Total Duration: "),
             trailing: DurationText(widget.workout.queue.getTotalTime()),
@@ -71,12 +53,18 @@ class _WorkoutEditorViewState extends State<WorkoutEditorView> {
           WorkoutEditorWidget(
             workout: widget.workout,
             onChange: () {
-              setState(() {});
+              setState(() {
+                _saveWorkout();
+              });
             },
           ),
         ],
       ),
     );
+  }
+
+  void _saveWorkout(){
+    StorageManager().writeWorkout(widget.workout);
   }
 }
 

@@ -8,10 +8,11 @@ import '../../../widgets/queue_elements/custom_queue_element_widget.dart';
 
 class RepeatElement implements QueueElement {
   int repetitions = 0;
-  final Queue _queue = Queue();
+  late final Queue _queue;
   QueueElement _next = EndElement();
 
-  RepeatElement(this.repetitions) {
+  RepeatElement(this.repetitions, {Queue? queue}) {
+    _queue = queue ?? Queue();
     _queue.addListener(() {
       _parent!.executeListener();
     });
@@ -46,6 +47,27 @@ class RepeatElement implements QueueElement {
         ),
       );
 
+
+  factory RepeatElement.fromJson(Map<String, dynamic> data) {
+    final repetitions = data['repetitions'] as int;
+    final items = (data['queue'] as List).whereType<Map<String,dynamic>>().toList();
+    final queue = Queue.fromJSON(items);
+
+    return RepeatElement(repetitions, queue: queue);
+  }
+
+  @override
+  List<Map<String, dynamic>> toJson() {
+    List<Map<String,dynamic>> out = _next.toJson();
+    Map<String, dynamic> me = <String,dynamic> {
+      "type": "repeat",
+      "repetitions": repetitions,
+      "queue": _queue.toJson(),
+    };
+    out.insert(0, me);
+    return out;
+  }
+
   @override
   List<Timeslot> getSlots(){
     final out = _next.getSlots();
@@ -73,17 +95,5 @@ class RepeatElement implements QueueElement {
       return true;
     }
     return _next.removeAt(i - 1);
-  }
-
-  @override
-  List<Map<String, dynamic>> toJson() {
-    List<Map<String,dynamic>> out = _next.toJson();
-    Map<String, dynamic> me = <String,dynamic> {
-      "type": "repeat",
-      "repetitions": repetitions,
-      "queue": _queue.toJson(),
-    };
-    out.insert(0, me);
-    return out;
   }
 }

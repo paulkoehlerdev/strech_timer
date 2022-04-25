@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:strech_timer/models/timeslot.dart';
 import 'package:strech_timer/util/queue/queue.dart';
-import 'package:strech_timer/widgets/card_tile.dart';
-import 'package:strech_timer/widgets/duration_text.dart';
+import 'package:strech_timer/widgets/items/card_tile.dart';
+import 'package:strech_timer/widgets/items/duration_text.dart';
 import 'package:strech_timer/widgets/queue_elements/timeslot_element_widget.dart';
 
 class WorkoutExecutorView extends StatefulWidget {

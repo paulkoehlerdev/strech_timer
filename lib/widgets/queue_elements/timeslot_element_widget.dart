@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:strech_timer/models/timeslot.dart';
 import 'package:strech_timer/util/queue/queue_elements/timeslot_element.dart';
-import 'package:strech_timer/widgets/card_tile.dart';
-import 'package:strech_timer/widgets/duration_text.dart';
+import 'package:strech_timer/widgets/items/card_tile.dart';
+import 'package:strech_timer/widgets/items/duration_text.dart';
 
 class TimeslotElementWidget extends StatelessWidget {
   final Timeslot _timeslot;
