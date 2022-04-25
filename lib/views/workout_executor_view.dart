@@ -7,23 +7,23 @@ import 'package:strech_timer/widgets/card_tile.dart';
 import 'package:strech_timer/widgets/duration_text.dart';
 import 'package:strech_timer/widgets/queue_elements/timeslot_element_widget.dart';
 
-class QueueExecutorView extends StatefulWidget {
+class WorkoutExecutorView extends StatefulWidget {
   final List<Timeslot> slots;
 
-  QueueExecutorView(this.slots, {Key? key}) : super(key: key) {
+  WorkoutExecutorView(this.slots, {Key? key}) : super(key: key) {
     if (slots.isEmpty) {
       throw Exception("Invalid Value: slots can't be empty");
     }
   }
 
-  factory QueueExecutorView.from(Queue queue) =>
-      QueueExecutorView(queue.getSlots());
+  factory WorkoutExecutorView.from(Queue queue) =>
+      WorkoutExecutorView(queue.getSlots());
 
   @override
-  State<QueueExecutorView> createState() => _QueueExecutorViewState();
+  State<WorkoutExecutorView> createState() => _WorkoutExecutorViewState();
 }
 
-class _QueueExecutorViewState extends State<QueueExecutorView> {
+class _WorkoutExecutorViewState extends State<WorkoutExecutorView> {
   int _currentIndex = 0;
   int _elapsedTime = 0;
 

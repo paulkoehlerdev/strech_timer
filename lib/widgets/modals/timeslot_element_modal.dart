@@ -121,9 +121,9 @@ class _TimeslotElementModalState extends State<_TimeslotElementModal> {
             Navigator.of(context).pop();
             if (widget.isNew) {
               widget._queue.add(widget.element);
-            } else {
-              widget._queue.executeListener();
+              return;
             }
+            widget._queue.executeListener();
           },
         ),
       ],

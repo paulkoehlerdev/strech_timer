@@ -37,7 +37,7 @@ class TimeslotElement implements QueueElement{
   @override
   List<Timeslot> getSlots(){
     final out = _next.getSlots();
-    out.add(_timeslot);
+    out.insert(0, _timeslot);
     return out;
   }
 
@@ -59,5 +59,16 @@ class TimeslotElement implements QueueElement{
       return true;
     }
     return _next.removeAt(i - 1);
+  }
+
+  @override
+  List<Map<String, dynamic>> toJson() {
+    List<Map<String,dynamic>> out = _next.toJson();
+    Map<String, dynamic> me = <String,dynamic> {
+      "type": "timeslot",
+      "timeslot": _timeslot.toJson(),
+    };
+    out.insert(0, me);
+    return out;
   }
 }

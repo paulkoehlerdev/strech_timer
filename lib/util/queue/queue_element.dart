@@ -8,13 +8,14 @@ abstract class QueueElement{
   Queue get parent;
   Key get key;
 
+  QueueElement get next;
+  Widget get widget;
+  Timeslot get timeslot;
+
   bool comp(QueueElement other);
 
   bool add(QueueElement item);
   bool removeAt(int i);
   List<Timeslot> getSlots();
-
-  QueueElement get next;
-  Widget get widget;
-  Timeslot get timeslot;
+  List<Map<String, dynamic>> toJson();
 }

@@ -10,4 +10,16 @@ class Timeslot {
     required this.color,
     this.text = "",
   });
+
+  Map<String, dynamic> toJson() =>
+      <String, dynamic>{
+        "text": text,
+        "color": {
+          "r": color.red,
+          "g": color.green,
+          "b": color.blue,
+          "a": color.alpha,
+        },
+        "time": time.inSeconds,
+      };
 }

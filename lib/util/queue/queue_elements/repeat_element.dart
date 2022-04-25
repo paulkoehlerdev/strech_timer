@@ -50,7 +50,7 @@ class RepeatElement implements QueueElement {
   List<Timeslot> getSlots(){
     final out = _next.getSlots();
     for(int i = 0; i < repetitions; i++) {
-      out.addAll(_queue.getSlots().reversed);
+      out.insertAll(0, _queue.getSlots());
     }
     return out;
   }
@@ -73,5 +73,17 @@ class RepeatElement implements QueueElement {
       return true;
     }
     return _next.removeAt(i - 1);
+  }
+
+  @override
+  List<Map<String, dynamic>> toJson() {
+    List<Map<String,dynamic>> out = _next.toJson();
+    Map<String, dynamic> me = <String,dynamic> {
+      "type": "repeat",
+      "repetitions": repetitions,
+      "queue": _queue.toJson(),
+    };
+    out.insert(0, me);
+    return out;
   }
 }

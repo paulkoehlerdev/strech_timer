@@ -11,6 +11,8 @@ class Queue {
 
   QueueIterator get iterator => QueueIterator(_root);
 
+  bool get isEmpty => _root is EndElement;
+
   void addListener(VoidCallback listener) {
     _onChange.add(listener);
   }
@@ -42,9 +44,13 @@ class Queue {
     return total;
   }
 
+  List<Map<String, dynamic>> toJson(){
+    return _root.toJson();
+  }
+
   @override
   List<Timeslot> getSlots(){
-    return _root.getSlots().reversed.toList();
+    return _root.getSlots();
   }
 
   void add(QueueElement item) {
