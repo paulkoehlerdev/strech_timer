@@ -6,11 +6,16 @@ import 'package:strech_timer/widgets/items/duration_text.dart';
 
 class TimeslotElementWidget extends StatelessWidget {
   final Timeslot _timeslot;
+  final bool isEditable;
+  final TextEditingController controller = TextEditingController();
 
-  const TimeslotElementWidget(
+  TimeslotElementWidget(
     this._timeslot, {
+    this.isEditable = false,
     Key? key,
-  }) : super(key: key);
+  }) : super(key: key) {
+    controller.text = _timeslot.text;
+  }
 
   factory TimeslotElementWidget.from(TimeslotElement el) {
     return TimeslotElementWidget(el.timeslot);
@@ -20,12 +25,23 @@ class TimeslotElementWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget title = Text(
+      _timeslot.text,
+      style: _textStyle,
+    );
+
+    if (isEditable) {
+      title = TextField(
+        controller: controller,
+        onChanged: (value) {
+          _timeslot.text = value.substring(0, 25);
+        },
+      );
+    }
+
     return CardTile(
       color: _timeslot.color,
-      title: Text(
-        _timeslot.text,
-        style: _textStyle,
-      ),
+      title: title,
       trailing: DurationText(_timeslot.time, style: _textStyle),
     );
   }

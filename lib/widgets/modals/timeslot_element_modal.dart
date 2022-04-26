@@ -43,7 +43,7 @@ class _TimeslotElementModalState extends State<_TimeslotElementModal> {
       children: [
         Padding(
           padding: const EdgeInsets.all(12.0),
-          child: TimeslotElementWidget(widget.element.timeslot),
+          child: TimeslotElementWidget(widget.element.timeslot, isEditable: true),
         ),
         ColorSelector(
           widget.element.timeslot,
