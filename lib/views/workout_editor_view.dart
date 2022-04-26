@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:strech_timer/models/workout.dart';
 import 'package:strech_timer/util/storage_manager/storage_manager.dart';
@@ -17,7 +15,6 @@ class WorkoutEditorView extends StatefulWidget {
 }
 
 class _WorkoutEditorViewState extends State<WorkoutEditorView> {
-
   @override
   void initState() {
     StorageManager();
@@ -34,18 +31,15 @@ class _WorkoutEditorViewState extends State<WorkoutEditorView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Workout"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              print(jsonEncode(widget.workout));
-            },
-            icon: const Icon(Icons.bug_report),
-          ),
-        ],
       ),
       body: Column(
         children: [
-          WorkoutCardTile(widget.workout),
+          WorkoutCardTile(
+            widget.workout,
+            runnable: true,
+            deletable: true,
+            textbox: true,
+          ),
           ListTile(
             title: const Text("Total Duration: "),
             trailing: DurationText(widget.workout.queue.getTotalTime()),
@@ -63,9 +57,7 @@ class _WorkoutEditorViewState extends State<WorkoutEditorView> {
     );
   }
 
-  void _saveWorkout(){
+  void _saveWorkout() {
     StorageManager().writeWorkout(widget.workout);
   }
 }
-
-

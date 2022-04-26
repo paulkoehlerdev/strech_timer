@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:strech_timer/models/workout.dart';
-import 'package:strech_timer/util/storage_manager/string_converter.dart';
 
 class StorageManager {
   static final _instance = StorageManager._internal();
@@ -34,11 +33,25 @@ class StorageManager {
 
   Future<File> writeWorkout(Workout workout) async {
     final mainDirectory = await _localDirectory;
-    final filename = convertStringToSnakeCase(workout.name);
+    final filename = workout.uuid;
 
     final file = File('$mainDirectory$filename.json');
     print('updated $filename.json');
 
     return file.writeAsString(jsonEncode(workout));
+  }
+
+  Future<bool> deleteWorkout(Workout workout) async {
+    final mainDirectory = await _localDirectory;
+    final filename = workout.uuid;
+
+    final file = File('$mainDirectory$filename.json');
+    print('deleted $filename.json');
+
+    if(!file.existsSync()) return false;
+
+    await file.delete();
+
+    return true;
   }
 }

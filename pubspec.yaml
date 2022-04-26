@@ -38,6 +38,7 @@ dependencies:
 
   numberpicker:
   path_provider:
+  uuid:
 
 dev_dependencies:
   flutter_test:
