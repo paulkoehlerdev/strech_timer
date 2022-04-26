@@ -37,8 +37,8 @@ dependencies:
 
 
   numberpicker:
-  flutter_colorpicker:
-  duration_picker:
+  path_provider:
+  uuid:
 
 dev_dependencies:
   flutter_test:
